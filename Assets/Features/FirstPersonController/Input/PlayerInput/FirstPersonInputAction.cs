@@ -49,6 +49,14 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""0fb57bb0-6617-471b-8f5c-71329f2108a9"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -293,6 +301,50 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Right Stick"",
+                    ""id"": ""fe688f3c-06b0-4d95-a9db-0a125877be98"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d7ef8ae7-3f43-4727-8700-a8bf2df6f942"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f2a72bae-0e6e-44e2-83bd-6d0f124592b4"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a9d5d07-b73e-4fb4-a6c7-0f56c1bce19e"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -333,6 +385,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
         m_Game_Run = m_Game.FindAction("Run", throwIfNotFound: true);
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
+        m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -386,6 +439,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Look;
     private readonly InputAction m_Game_Run;
     private readonly InputAction m_Game_Jump;
+    private readonly InputAction m_Game_Zoom;
     public struct GameActions
     {
         private @FirstPersonInputAction m_Wrapper;
@@ -394,6 +448,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Game_Look;
         public InputAction @Run => m_Wrapper.m_Game_Run;
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
+        public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -415,6 +470,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_GameActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnJump;
+                @Zoom.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -431,6 +489,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
         }
     }
@@ -459,5 +520,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

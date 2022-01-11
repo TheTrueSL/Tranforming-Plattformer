@@ -51,7 +51,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
         _camera = GetComponentInChildren<Camera>();
-
         //var stepDistance = 0f;
         //Moved.Subscribe(w => {
         //    stepDistance += w.magnitude;
@@ -67,6 +66,19 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         
         this.HandleLocomotion();
         this.Look();
+        
+        
+        firstPersonControllerInput.Zoom
+            .Where(v=>v != 0f)
+            .Subscribe(input =>{
+            Vector3 direction = _camera.transform.position - transform.position;
+            if ((direction.magnitude > 2 || input > 0) && (direction.magnitude < 8 || input < 0))
+            {
+                direction = direction.normalized;
+                direction /= 100;
+                _camera.transform.position += input * direction;
+            }
+        }).AddTo(this);
         
         _isRunning = new ReactiveProperty<bool>(false);
         _moved = new Subject<Vector3>().AddTo(this);
