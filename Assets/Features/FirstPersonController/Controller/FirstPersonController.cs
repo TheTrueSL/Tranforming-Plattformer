@@ -37,6 +37,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [SerializeField] private float gravity = 5f;
     [SerializeField] private float jumpSpeed = 10f;
     [SerializeField] private float strideLength = 2.5f;
+    [SerializeField] private int catJumps = 2;
     public float StrideLength => strideLength;
 
     [Header("Head Angels")]
@@ -66,19 +67,9 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         
         this.HandleLocomotion();
         this.Look();
+        this.HandleZoom();
         
         
-        firstPersonControllerInput.Zoom
-            .Where(v=>v != 0f)
-            .Subscribe(input =>{
-            Vector3 direction = _camera.transform.position - transform.position;
-            if ((direction.magnitude > 2 || input > 0) && (direction.magnitude < 8 || input < 0))
-            {
-                direction = direction.normalized;
-                direction /= 100;
-                _camera.transform.position += input * direction;
-            }
-        }).AddTo(this);
         
         _isRunning = new ReactiveProperty<bool>(false);
         _moved = new Subject<Vector3>().AddTo(this);
@@ -87,10 +78,26 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         _stepped = new Subject<Unit>().AddTo(this);
     }
 
-    private void HandleLocomotion() {
+    private void HandleZoom(){
+        firstPersonControllerInput.Zoom
+            .Where(v => v != 0f)
+            .Subscribe(input => {
+                Vector3 direction = _camera.transform.position - transform.position;
+                if ((direction.magnitude > 2 || input > 0) && (direction.magnitude < 8 || input < 0))
+                {
+                    direction = direction.normalized;
+                    direction /= 100;
+                    _camera.transform.position += input * direction;
+                }
+            }).AddTo(this);
+    }
+
+
+    private void HandleLocomotion()
+    {
         //Start of grounded
         _characterController.Move(-gravity * transform.up);
-        
+
 
         var jumpLatch = LatchObservables.Latch(this.UpdateAsObservable(), firstPersonControllerInput.Jump, false);
 
@@ -103,11 +110,16 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                                    _characterController.isGrounded == false)
             .Subscribe(i =>
             {
-                var wasGrounded = false;
-                if (currentForm != Form.Bear)
+
+                bool canJump = _characterController.isGrounded;
+                if (currentForm == Form.Bear)
                 {
-                    wasGrounded = _characterController.isGrounded;
+                    canJump = false;
+                }else if(currentForm == Form.Cat && catJumps > 0)
+                {
+                    canJump = true;
                 }
+               
                 
 
                 //vertical movement
@@ -115,20 +127,22 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 //Determine vertical movement
                 //on the ground and want to jump
-                if (i.jump && wasGrounded)
+                if (i.jump && canJump)
                 {
                     verticalSpeed = jumpSpeed;
+                    catJumps--;
                     //_jumped.OnNext(Unit.Default);
                 }
                 //not grounded -> gravity
-                else if (!wasGrounded)
+                else if (!_characterController.isGrounded)
                 {
                     verticalSpeed = _characterController.velocity.y + (Physics.gravity.y * Time.deltaTime * 3.0f);
                 }
-                else
+                else if(_characterController.isGrounded)
                 //on the ground. Restore base state
                 {
                     verticalSpeed = -Math.Abs(gravity);
+                    catJumps = 2;
                 }
 
                 //horizontal movement
@@ -144,8 +158,8 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 _characterController.Move(distance);
 
                 var tempIsRunning = false;
-                if (wasGrounded && _characterController.isGrounded)
-                { 
+                if (canJump && _characterController.isGrounded)
+                {
                     _moved.OnNext(_characterController.velocity * Time.deltaTime);
                     if (_characterController.velocity.magnitude > 0)
                     {
@@ -158,8 +172,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 //}
             }).AddTo(this);
     }
-
-   
 
     private void Look() {
         firstPersonControllerInput.Look.Where(v => v != Vector2.zero).
