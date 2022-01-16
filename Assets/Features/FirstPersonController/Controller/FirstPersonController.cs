@@ -33,6 +33,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
     [Header("Movement Options")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] float turnSpeed = 10f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float gravity = 5f;
     [SerializeField] private float jumpSpeed = 10f;
@@ -68,7 +69,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         this.HandleLocomotion();
         this.Look();
         this.HandleZoom();
-        
+        HandleTurn();
         
         
         _isRunning = new ReactiveProperty<bool>(false);
@@ -83,12 +84,24 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             .Where(v => v != 0f)
             .Subscribe(input => {
                 Vector3 direction = _camera.transform.position - transform.position;
-                if ((direction.magnitude > 2 || input > 0) && (direction.magnitude < 8 || input < 0))
+                if ((direction.magnitude > 2 || input < 0) && (direction.magnitude < 8 || input > 0))
                 {
                     direction = direction.normalized;
                     direction /= 100;
-                    _camera.transform.position += input * direction;
+                    _camera.transform.position -= input * direction;
                 }
+            }).AddTo(this);
+    }
+
+    private void HandleTurn()
+    {
+        firstPersonControllerInput.Turn
+            .Where(v => v != 0f)
+            .Subscribe(input =>
+            {
+                float change = input * turnSpeed;
+                transform.Rotate(0, change, 0, Space.Self);
+
             }).AddTo(this);
     }
 
