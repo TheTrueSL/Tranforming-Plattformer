@@ -15,6 +15,9 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
 
     private IObservable<float> _zoom;
     public override IObservable<float> Zoom => _zoom;
+    
+    private IObservable<float> _turn;
+    public override IObservable<float> Turn => _turn;
 
     private ReadOnlyReactiveProperty<bool> _run;
     public override ReadOnlyReactiveProperty<bool> Run => _run;
@@ -51,6 +54,8 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
         _move = this.UpdateAsObservable().Select(_ => _controls.Game.Move.ReadValue<Vector2>());
 
 		_zoom = this.UpdateAsObservable().Select(_ => _controls.Game.Zoom.ReadValue<float>());
+        
+        _turn = this.UpdateAsObservable().Select(_ => _controls.Game.Turn.ReadValue<float>());
 
         //Look
         var smoothLookValue = new Vector2(0, 0);
