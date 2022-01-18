@@ -6,13 +6,11 @@ public class Deathplane : MonoBehaviour
 {
     private Vector3 startpos = new Vector3(1.11f, 8.13f, -1.44f);
 
-    private CharacterController _characterController;
-    
-    Quaternion startRotation = Quaternion.Euler(Vector3.zero);
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-        _characterController = gameObject.GetComponent<CharacterController>();
+        
     }
 
     // Update is called once per frame
@@ -25,7 +23,8 @@ public class Deathplane : MonoBehaviour
     {
         if (collision.gameObject.tag == "Deathplane")
         {
-            transform.SetPositionAndRotation(startpos, startRotation);
+            Debug.Log("weg daa");
+            player.transform.position = startpos;
         }
     }
 }
