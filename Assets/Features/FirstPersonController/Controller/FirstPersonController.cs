@@ -44,10 +44,25 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Range(-90, 0)] [SerializeField] private float minViewAngle = -60f;
     [Range(0, 90)] [SerializeField] private float maxViewAngle = 60f;
 
-    enum Form { Bear, Cat, Bird };
+    public enum Form { Bear, Cat, Bird };
     [Header("State")]
     [SerializeField]
-    Form currentForm = Form.Bear;
+    public Form currentForm = Form.Bear;
+
+    public void SetForm(string form)
+    {
+        switch (form)
+        {
+            case "Cat": currentForm = Form.Cat;
+                break;
+            case "Bear": currentForm = Form.Bear;
+                break;
+            case "Bird": currentForm = Form.Bird; 
+                break;
+            default: currentForm = Form.Bear;
+                break;
+        }
+    }
 
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
