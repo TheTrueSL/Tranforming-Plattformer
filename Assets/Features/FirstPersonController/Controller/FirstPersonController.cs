@@ -36,7 +36,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [SerializeField] float turnSpeed = 10f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float gravity = 5f;
-    [SerializeField] private float jumpSpeed = 10f;
+    [SerializeField] private float jumpSpeed = 6f;
     [SerializeField] private float strideLength = 2.5f;
     [SerializeField] private int catJumps = 2;
     public float StrideLength => strideLength;
@@ -45,10 +45,11 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Range(-90, 0)] [SerializeField] private float minViewAngle = -60f;
     [Range(0, 90)] [SerializeField] private float maxViewAngle = 60f;
 
-    enum Form { Bear, Cat, Bird };
+    enum Form { Bear, Human, Cat, Bird };
     [Header("State")]
     [SerializeField]
     Form currentForm = Form.Bear;
+   
 
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
@@ -69,7 +70,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         this.HandleLocomotion();
         this.Look();
         this.HandleZoom();
-        HandleTurn();
+        this.HandleTurn();
         
         
         _isRunning = new ReactiveProperty<bool>(false);
@@ -96,13 +97,17 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     private void HandleTurn()
     {
         firstPersonControllerInput.Turn
-            .Where(v => v != 0f)
-            .Subscribe(input =>
-            {
-                float change = input * turnSpeed;
-                transform.Rotate(0, change, 0, Space.Self);
+                .Where(v => v != 0f)
+                .Subscribe(input =>
+                {
+                    if (currentForm == Form.Bear)
+                    {
+                        float change = input * turnSpeed;
+                        transform.Rotate(0, change / 20, 0, Space.Self);
 
-            }).AddTo(this);
+                    }
+
+                }).AddTo(this);
     }
 
 
@@ -123,12 +128,15 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                                    _characterController.isGrounded == false)
             .Subscribe(i =>
             {
-
+                /*In general jumping is possible if you are touching the ground. 
+                Bear is a special case. You can never jump. Cat form may even jump in the air
+                Bird may always Perform a Jump and cat may perform a jump if it has a double jump left.*/
+                
                 bool canJump = _characterController.isGrounded;
                 if (currentForm == Form.Bear)
                 {
                     canJump = false;
-                }else if(currentForm == Form.Cat && catJumps > 0)
+                }else if((currentForm == Form.Cat && catJumps > 0) || (currentForm == Form.Bird))
                 {
                     canJump = true;
                 }
@@ -159,16 +167,36 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 }
 
                 //horizontal movement
-                // == if Run runspeed else walkspeed
-                var currentSpeed = firstPersonControllerInput.Run.Value ? runSpeed : moveSpeed;
+                
+                float currentSpeed;
+                
+                if (firstPersonControllerInput.Run.Value && currentForm != Form.Bear && currentForm != Form.Human)
+                {
+                    currentSpeed = runSpeed;
+                }
+                else if(currentForm != Form.Bear) {
+                    currentSpeed = moveSpeed * 0.75f;
+                }
+                else {
+                    currentSpeed = moveSpeed;
+                }
+                
+                
                 var horizontalVelocity = i.move * currentSpeed;
 
                 //combine horizontal and vertical movement
+               
                 var characterSpeed = transform.TransformVector(new Vector3(horizontalVelocity.x, verticalSpeed, horizontalVelocity.y));
+                
+                
 
                 //apply movement
+                
                 var distance = characterSpeed * Time.deltaTime;
+                if (currentForm == Form.Bear)
                 _characterController.Move(distance);
+                
+                
 
                 var tempIsRunning = false;
                 if (canJump && _characterController.isGrounded)
@@ -187,25 +215,28 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     }
 
     private void Look() {
-        firstPersonControllerInput.Look.Where(v => v != Vector2.zero).
-            Subscribe(inputLook =>
-            {
-                //2D Vector in Euler Angles
+        {
+            firstPersonControllerInput.Look.Where(v => v != Vector2.zero).
+                Subscribe(inputLook =>
+                {
+                    //2D Vector in Euler Angles
 
-                //Horizontal around vertical axis + being clockwise
-                var horizontalLook = inputLook.x * Vector3.up * Time.deltaTime;
-                transform.localRotation *= Quaternion.Euler(horizontalLook);
+                    //Horizontal around vertical axis + being clockwise
+                    if (currentForm != Form.Bear) {
+                    var horizontalLook = inputLook.x * Vector3.up * Time.deltaTime;
+                    transform.localRotation *= Quaternion.Euler(horizontalLook);
 
-                //Vertical around the horizontal axis + being up
-                var verticalLook = inputLook.y * Vector3.left * Time.deltaTime;
-                var newQ = _camera.transform.localRotation * Quaternion.Euler(verticalLook);
+                    //Vertical around the horizontal axis + being up
+                    var verticalLook = inputLook.y * Vector3.left * Time.deltaTime;
+                    var newQ = _camera.transform.localRotation * Quaternion.Euler(verticalLook);
 
-                _camera.transform.localRotation = RotationTools.ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
+                    _camera.transform.localRotation = RotationTools.ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
+                }
 
 
 
-
-            }).AddTo(this);
+                }).AddTo(this);
+        }
     }
 
     public struct MoveInputData {
