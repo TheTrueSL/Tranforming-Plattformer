@@ -44,14 +44,6 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Turn",
-                    "type": "Value",
-                    "id": "b7c84a33-2d75-49c9-9177-86fbbe2eea53",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -340,72 +332,6 @@
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "KeyboardButtons",
-                    "id": "3eeec70b-8001-4c90-866a-dda00078d612",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Turn",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "b26c76ea-7ed8-44d5-8614-4f70e3277fc7",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "6cdc2181-80b7-4916-a8a3-a5427ee79dc6",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "GamePadButtons",
-                    "id": "60a660ca-b096-4d68-9846-d9e28e693d72",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Turn",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "b40def9a-e76e-4665-8019-f415653f61eb",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "8e7a0e22-fe18-43c6-926b-6710ba321eba",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }

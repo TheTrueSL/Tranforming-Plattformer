@@ -29,5 +29,4 @@ public abstract class FirstPersonControllerInput : MonoBehaviour
     public abstract IObservable<Vector2> Look { get; }
     
     public abstract IObservable<float> Zoom { get; }
-    public abstract IObservable<float> Turn { get; }
 }

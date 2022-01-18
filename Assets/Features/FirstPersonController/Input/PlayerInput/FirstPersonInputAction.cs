@@ -57,14 +57,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Turn"",
-                    ""type"": ""Value"",
-                    ""id"": ""b7c84a33-2d75-49c9-9177-86fbbe2eea53"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -353,72 +345,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""KeyboardButtons"",
-                    ""id"": ""3eeec70b-8001-4c90-866a-dda00078d612"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Turn"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""b26c76ea-7ed8-44d5-8614-4f70e3277fc7"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Turn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""6cdc2181-80b7-4916-a8a3-a5427ee79dc6"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Turn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""GamePadButtons"",
-                    ""id"": ""60a660ca-b096-4d68-9846-d9e28e693d72"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Turn"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""b40def9a-e76e-4665-8019-f415653f61eb"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Turn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""8e7a0e22-fe18-43c6-926b-6710ba321eba"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Turn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -460,7 +386,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         m_Game_Run = m_Game.FindAction("Run", throwIfNotFound: true);
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
-        m_Game_Turn = m_Game.FindAction("Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,7 +440,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Run;
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Zoom;
-    private readonly InputAction m_Game_Turn;
     public struct GameActions
     {
         private @FirstPersonInputAction m_Wrapper;
@@ -525,7 +449,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_Game_Run;
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
-        public InputAction @Turn => m_Wrapper.m_Game_Turn;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -550,9 +473,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Zoom.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
-                @Turn.started -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
-                @Turn.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
-                @Turn.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -572,9 +492,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
-                @Turn.started += instance.OnTurn;
-                @Turn.performed += instance.OnTurn;
-                @Turn.canceled += instance.OnTurn;
             }
         }
     }
@@ -604,6 +521,5 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
-        void OnTurn(InputAction.CallbackContext context);
     }
 }
