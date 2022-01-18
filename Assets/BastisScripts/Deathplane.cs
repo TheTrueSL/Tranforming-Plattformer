@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Deathplane : MonoBehaviour
@@ -19,6 +20,9 @@ public class Deathplane : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Deathplane")
-            Debug.Log("eig. soll ich zurück an spawn");
+        {
+            SceneManager.LoadScene("Basti");
+        }
+        
     }
 }
