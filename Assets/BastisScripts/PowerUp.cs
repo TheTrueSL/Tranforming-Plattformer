@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PowerUpType{
-   Yellow
+   Yellow, Red, Blue
 }
 
 public class PowerUp : MonoBehaviour
 {
-	PowerUpType type;
+	public PowerUpType type;
 
     void OnTriggerEnter(Collider col)
     {
@@ -18,7 +18,7 @@ public class PowerUp : MonoBehaviour
             PowerUpVerwalter walter = FindObjectOfType<PowerUpVerwalter>();
 			if(walter != null)
 				walter.Collect(type);
-			Destroy(gameObject.transform.parent.gameObject);
+			Destroy(gameObject);
         }
         
     }

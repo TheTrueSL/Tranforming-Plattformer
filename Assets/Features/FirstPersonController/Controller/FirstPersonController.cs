@@ -44,7 +44,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Range(-90, 0)] [SerializeField] private float minViewAngle = -60f;
     [Range(0, 90)] [SerializeField] private float maxViewAngle = 60f;
 
-    public enum Form { Bear, Cat, Bird };
+    public enum Form { Bear, Cat, SuperCat, Bird };
     [Header("State")]
     [SerializeField]
     public Form currentForm = Form.Bear;
@@ -58,6 +58,8 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             case "Bear": currentForm = Form.Bear;
                 break;
             case "Bird": currentForm = Form.Bird; 
+                break;
+            case "SuperCat": currentForm = Form.SuperCat; 
                 break;
             default: currentForm = Form.Bear;
                 break;
@@ -130,7 +132,10 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if (currentForm == Form.Bear)
                 {
                     canJump = false;
-                }else if(currentForm == Form.Cat && catJumps > 0)
+                }else if(currentForm == Form.Cat && catJumps > 1)
+                {
+                    canJump = true;
+                }else if(currentForm == Form.SuperCat && catJumps > 0)
                 {
                     canJump = true;
                 }

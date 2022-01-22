@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29ec5e58-6aaf-47e5-b535-504f00e200cf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PowerUp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PowerUpVerwalter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PowerUpVerwalter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,15 +17,15 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Deathplane.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/PowerUpVerwalter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PowerUpVerwalter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Deathplane.cs" />
+      <option value="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" />
       <option value="$PROJECT_DIR$/PowerUp.cs" />
       <option value="$PROJECT_DIR$/PowerUpVerwalter.cs" />
-      <option value="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="23sOwnlTngzOxmEBXDIaUH7a4Hn" />
@@ -46,7 +49,8 @@
       <option name="presentableId" value="Default" />
       <updated>1642519576566</updated>
       <workItem from="1642519594336" duration="863000" />
-      <workItem from="1642533058989" duration="1890000" />
+      <workItem from="1642533058989" duration="2038000" />
+      <workItem from="1642866804240" duration="2254000" />
     </task>
     <servers />
   </component>
