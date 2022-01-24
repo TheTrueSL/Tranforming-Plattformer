@@ -57,6 +57,14 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Turn"",
+                    ""type"": ""Button"",
+                    ""id"": ""f0308325-d515-4662-bdd8-6f7802ab2a3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -345,6 +353,39 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Turn"",
+                    ""id"": ""2f8d30ed-f6a2-4bfe-b9a7-a14e430368b3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Turn"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""46111a93-6e72-467b-83e4-a77a44226231"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ea36e523-d6f5-4fb3-9803-b079be9ee1a9"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -386,6 +427,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         m_Game_Run = m_Game.FindAction("Run", throwIfNotFound: true);
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
+        m_Game_Turn = m_Game.FindAction("Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -440,6 +482,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Run;
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Zoom;
+    private readonly InputAction m_Game_Turn;
     public struct GameActions
     {
         private @FirstPersonInputAction m_Wrapper;
@@ -449,6 +492,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_Game_Run;
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
+        public InputAction @Turn => m_Wrapper.m_Game_Turn;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -473,6 +517,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Zoom.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZoom;
+                @Turn.started -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
+                @Turn.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
+                @Turn.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -492,6 +539,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @Turn.started += instance.OnTurn;
+                @Turn.performed += instance.OnTurn;
+                @Turn.canceled += instance.OnTurn;
             }
         }
     }
@@ -521,5 +571,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnTurn(InputAction.CallbackContext context);
     }
 }
