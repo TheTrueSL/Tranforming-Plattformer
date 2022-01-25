@@ -5,17 +5,43 @@ using UnityEngine;
 
 public class PowerUpVerwalter : MonoBehaviour
 {
-    // Start is called before the first frame update
+	public GameObject tiger;
+	public GameObject elephant;
+	public GameObject cow;
+	public GameObject bird;
 
-    public FirstPersonController player;
+	private GameObject active;
+
+	public CompassBar compassBar;
+
+	private void Start()
+	{
+		active = Instantiate(elephant, new Vector3(22.1700001f,9.82999992f,-1.67119896f), new Quaternion(0,-0.747593343f,0,0.664156795f));
+		compassBar.ChangePlayer(active.transform);
+	}
 
     public void Collect(PowerUpType type)
     {
-        if (type == PowerUpType.Yellow)
-            player.SetForm("Cat");
+	    if (type == PowerUpType.Yellow)
+	    {
+		    Vector3 pos = active.transform.position;
+		    Destroy(active);
+		    active = Instantiate(cow,pos, Quaternion.identity);
+		    compassBar.ChangePlayer(active.transform);
+	    }
 		else if(type == PowerUpType.Red)
-			player.SetForm("SuperCat");
+	    {
+		    Vector3 pos = active.transform.position;
+		    Destroy(active);
+		    active = Instantiate(tiger,pos, Quaternion.identity);
+		    compassBar.ChangePlayer(active.transform);
+	    }
 		else if(type == PowerUpType.Blue)
-			player.SetForm("Bird");
+	    {
+		    Vector3 pos = active.transform.position;
+		    Destroy(active);
+		    active = Instantiate(bird,pos, Quaternion.identity);
+		    compassBar.ChangePlayer(active.transform);
+	    }
     }
 }

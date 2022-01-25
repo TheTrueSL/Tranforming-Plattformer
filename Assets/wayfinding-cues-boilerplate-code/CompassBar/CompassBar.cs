@@ -6,6 +6,9 @@ using UnityEngine;
 public class CompassBar : MonoBehaviour
 {
     public float BarRange => barRange;
+
+    [SerializeField] private CompassBarElement a;
+    [SerializeField] private CompassBarElement b;
     [SerializeField] private float barRange = 120;
 
     public RectTransform BarRectTransform => _rectTransform;
@@ -14,5 +17,11 @@ public class CompassBar : MonoBehaviour
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+    }
+
+    public void ChangePlayer(Transform p)
+    {
+        a.player = p;
+        b.player = p;
     }
 }
