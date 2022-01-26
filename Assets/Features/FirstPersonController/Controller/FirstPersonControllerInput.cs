@@ -31,6 +31,4 @@ public abstract class FirstPersonControllerInput : MonoBehaviour
     public abstract IObservable<float> Zoom { get; }
 
     public abstract IObservable<float> Turn { get; }
-
-    public abstract IObservable<float> SlowMove { get; }
 }

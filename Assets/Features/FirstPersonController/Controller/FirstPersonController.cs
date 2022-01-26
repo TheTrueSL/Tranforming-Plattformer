@@ -10,7 +10,6 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour, ICharacterSignals
 {
-    TransformationHandler transformationHandler;
 
     public IObservable<Vector3> Moved => _moved;
     private Subject<Vector3> _moved;
@@ -39,14 +38,14 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [SerializeField] private float gravity = 5f;
     [SerializeField] private float jumpSpeed = 6f;
     [SerializeField] private float strideLength = 2.5f;
-    [SerializeField] private int Jumps = 2;
+    [SerializeField] private int catJumps = 2;
     public float StrideLength => strideLength;
 
     [Header("Head Angels")]
     [Range(-90, 0)] [SerializeField] private float minViewAngle = -60f;
     [Range(0, 90)] [SerializeField] private float maxViewAngle = 60f;
 
-    public enum Form { Elephant, Rabbit, Cat, Bird };
+    public enum Form { Elephant, Cat, SuperCat, Bird };
     [Header("State")]
     [SerializeField]
     public Form currentForm = Form.Elephant;
@@ -55,27 +54,20 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     {
         switch (form)
         {
-            case "Rabbit":
-                currentForm = Form.Rabbit;
-                transformationHandler.ChangeModelToRabbit();
+            case "Cat": currentForm = Form.Cat;
                 break;
-            case "Bear":
-                currentForm = Form.Elephant;
+            case "Bear": currentForm = Form.Elephant;
                 break;
-            case "Bird":
-                currentForm = Form.Bird;
+            case "Bird": currentForm = Form.Bird; 
                 break;
-            case "Cat":
-                currentForm = Form.Cat;
+            case "SuperCat": currentForm = Form.SuperCat; 
                 break;
-            default:
-                currentForm = Form.Elephant;
+            default: currentForm = Form.Elephant;
                 break;
         }
     }
 
-    private void Awake()
-    {
+    private void Awake() {
         _characterController = GetComponent<CharacterController>();
         _camera = GetComponentInChildren<Camera>();
         //var stepDistance = 0f;
@@ -90,14 +82,14 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
     private void Start()
     {
-
+        
         this.HandleLocomotion();
         this.Look();
         this.HandleZoom();
-        this.SlowMovement();
-
-
-
+        this.HandleTurn();
+        
+        
+        
         _isRunning = new ReactiveProperty<bool>(false);
         _moved = new Subject<Vector3>().AddTo(this);
         _jumped = new Subject<Unit>().AddTo(this);
@@ -105,43 +97,22 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         _stepped = new Subject<Unit>().AddTo(this);
     }
 
-    private void SlowMovement()
-    {
+    private void HandleTurn() {
         firstPersonControllerInput.Turn.
             Where(v => v != 0f).
             Subscribe(input =>
             {
-
-                if (currentForm == Form.Elephant)
-                {
-
+                if (currentForm == Form.Elephant) {
                     float change = input * turnSpeed;
-                    transform.Rotate(0, change, 0, Space.Self);
+                    transform.Rotate(0, change / 20, 0, Space.Self);
                 }
             }).AddTo(this);
-
-        firstPersonControllerInput.SlowMove.
-            Where(v => v != 0f).
-            Subscribe(input =>
-            {
-                if (currentForm == Form.Elephant)
-                {
-                    float movement = input * (moveSpeed * 0.75f);
-                    var characterSpeed = transform.TransformVector(new Vector3(0, 0, movement * 10));
-                    var distance = characterSpeed * Time.deltaTime;
-                    _characterController.Move(distance);
-                }
-            }).AddTo(this);
-
-
     }
 
-    private void HandleZoom()
-    {
+    private void HandleZoom(){
         firstPersonControllerInput.Zoom
             .Where(v => v != 0f)
-            .Subscribe(input =>
-            {
+            .Subscribe(input => {
                 Vector3 direction = _camera.transform.position - transform.position;
                 if ((direction.magnitude > 2 || input > 0) && (direction.magnitude < 8 || input < 0))
                 {
@@ -171,13 +142,21 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             .Subscribe(i =>
             {
 
-                /*This Movement doesnt Apply if the current form is Elephant. If in element mode use SlowMove*/
+                /*In general jumping is possible if you are touching the ground. 
+               Bear is a special case. You can never jump. Cat form may even jump in the air
+               Bird may always Perform a Jump and cat may perform a jump if it has a double jump left.*/
 
                 bool canJump = _characterController.isGrounded;
-                if ((currentForm == Form.Cat && Jumps > 0) || currentForm == Form.Bird)
+                if (currentForm == Form.Elephant)
+                {
+                    canJump = false;
+                }else if((currentForm == Form.SuperCat && catJumps > 0) || currentForm == Form.Bird)
                 {
                     canJump = true;
                 }
+               
+                
+
                 //vertical movement
                 var verticalSpeed = 0f;
 
@@ -186,7 +165,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if (i.jump && canJump)
                 {
                     verticalSpeed = jumpSpeed;
-                    Jumps--;
+                    catJumps--;
                     //_jumped.OnNext(Unit.Default);
                 }
                 //not grounded -> gravity
@@ -194,11 +173,11 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 {
                     verticalSpeed = _characterController.velocity.y + (Physics.gravity.y * Time.deltaTime * 3.0f);
                 }
-                else if (_characterController.isGrounded)
+                else if(_characterController.isGrounded)
                 //on the ground. Restore base state
                 {
                     verticalSpeed = -Math.Abs(gravity);
-                    Jumps = 2;
+                    catJumps = 2;
                 }
 
                 //horizontal movement
@@ -206,9 +185,13 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 float currentSpeed;
 
-                if (firstPersonControllerInput.Run.Value && currentForm != Form.Rabbit)
+                if (firstPersonControllerInput.Run.Value && currentForm != Form.Elephant && currentForm != Form.Cat)
                 {
                     currentSpeed = runSpeed;
+                }
+                else if (currentForm != Form.Elephant)
+                {
+                    currentSpeed = moveSpeed * 0.75f;
                 }
                 else
                 {
@@ -219,7 +202,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 //combine horizontal and vertical movement
                 var characterSpeed = transform.TransformVector(new Vector3(horizontalVelocity.x, verticalSpeed, horizontalVelocity.y));
-                Debug.Log(verticalSpeed);
 
                 //apply movement
                 var distance = characterSpeed * Time.deltaTime;
@@ -234,8 +216,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                         tempIsRunning = firstPersonControllerInput.Run.Value;
                     }
                 }
-                
-
 
                 //if (!wasGrounded && _characterController.isGrounded) {
                 //    _landed.OnNext(Unit.Default);
@@ -243,8 +223,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             }).AddTo(this);
     }
 
-    private void Look()
-    {
+    private void Look() {
         firstPersonControllerInput.Look.Where(v => v != Vector2.zero).
             Subscribe(inputLook =>
             {
@@ -270,13 +249,11 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             }).AddTo(this);
     }
 
-    public struct MoveInputData
-    {
+    public struct MoveInputData {
         public readonly Vector2 move;
         public readonly bool jump;
 
-        public MoveInputData(Vector2 move, bool jump)
-        {
+        public MoveInputData(Vector2 move, bool jump) {
             this.move = move;
             this.jump = jump;
         }
