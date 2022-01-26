@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class CompassBarElement : MonoBehaviour
 {
-    [SerializeField] public Transform player;
+    [SerializeField] private Transform player;
     [SerializeField] private Transform target;
     [SerializeField] private bool useFixDirection = false;
     [SerializeField] private Vector3 fixDirection;
