@@ -21,7 +21,7 @@ public class Deathplane : MonoBehaviour
     {
         if (col.gameObject.tag == "Deathplane")
         {
-            SceneManager.LoadScene("Basti");
+            SceneManager.LoadScene("Game");
         }
         
     }

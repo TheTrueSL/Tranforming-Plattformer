@@ -48,7 +48,7 @@ CharacterController:
   m_GameObject: {fileID: 2227332371473811666}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 0.5
   m_Radius: 0.5
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2227332371473811666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a514e4eb8fface4b8d78f60604d3ddf, type: 3}
   m_Name: 
@@ -76,7 +76,7 @@ MonoBehaviour:
   gravity: 5
   jumpSpeed: 15
   strideLength: 2.5
-  catJumps: 2
+  Jumps: 2
   minViewAngle: -60
   maxViewAngle: 60
   currentForm: 2
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2227332371473811666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 090f897c207f96b40a9664db4a524003, type: 3}
   m_Name: 
@@ -165,7 +165,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2227332371473811666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 9e9c8c5bbda655a48b36b528b5561630, type: 3}
   m_Controller: {fileID: 9100000, guid: af472812a384a2d4582ffde45dfb0e89, type: 2}
   m_CullingMode: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2227332371473811666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 837d1c379e245f0429e0297d9e69aa3a, type: 3}
   m_Name: 
