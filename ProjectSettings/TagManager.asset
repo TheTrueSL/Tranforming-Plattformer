@@ -6,7 +6,6 @@ TagManager:
   tags:
   - SceneGraphFolder
   - Deathplane
-  - Movable
   layers:
   - Default
   - TransparentFX
