@@ -7,6 +7,9 @@ using UnityEngine;
 /// <summary>
 ///     Controller that handles the character controls and camera controls of the first person player.
 /// </summary>
+
+
+public enum Form { Ox, Rabbit, Tiger, Crane };
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour, ICharacterSignals
 {
@@ -45,24 +48,28 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Range(-90, 0)] [SerializeField] private float minViewAngle = -60f;
     [Range(0, 90)] [SerializeField] private float maxViewAngle = 60f;
 
-    public enum Form { Elephant, Cat, SuperCat, Bird };
+    
     [Header("State")]
     [SerializeField]
-    public Form currentForm = Form.Elephant;
+    public Form currentForm = Form.Ox;
+    [SerializeField]
+    TransformationManager transformationManager;
 
-    public void SetForm(string form)
+    public void SetForm(Form form)
     {
+        transformationManager.TransFormInto(form);
         switch (form)
         {
-            case "Cat": currentForm = Form.Cat;
+            case Form.Ox: 
+                currentForm = Form.Ox;
                 break;
-            case "Bear": currentForm = Form.Elephant;
+            case Form.Rabbit:
+                currentForm = Form.Rabbit;
                 break;
-            case "Bird": currentForm = Form.Bird; 
+            case Form.Tiger:
+                currentForm = Form.Tiger;
                 break;
-            case "SuperCat": currentForm = Form.SuperCat; 
-                break;
-            default: currentForm = Form.Elephant;
+            case Form.Crane: currentForm = Form.Crane; 
                 break;
         }
     }
@@ -86,9 +93,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         this.HandleLocomotion();
         this.Look();
         this.HandleZoom();
-        this.HandleTurn();
-        
-        
+        this.HandleTurn();      
         
         _isRunning = new ReactiveProperty<bool>(false);
         _moved = new Subject<Vector3>().AddTo(this);
@@ -102,11 +107,28 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             Where(v => v != 0f).
             Subscribe(input =>
             {
-                if (currentForm == Form.Elephant) {
+                if (currentForm == Form.Ox) {
                     float change = input * turnSpeed;
                     transform.Rotate(0, change / 20, 0, Space.Self);
                 }
             }).AddTo(this);
+
+        firstPersonControllerInput.SlowMove.
+            Where(v => v != 0f).
+            Subscribe(input =>
+            {
+                    if (currentForm == Form.Ox)
+                    {
+                        float movement = input * moveSpeed * 0.75f;
+                        //apply movement
+
+                        var forward = transform.TransformVector(new Vector3(0, 0, movement * Time.deltaTime));
+                        _characterController.Move(forward);
+                    }
+                
+            }).AddTo(this);
+
+
     }
 
     private void HandleZoom(){
@@ -147,10 +169,10 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                Bird may always Perform a Jump and cat may perform a jump if it has a double jump left.*/
 
                 bool canJump = _characterController.isGrounded;
-                if (currentForm == Form.Elephant)
+                if (currentForm == Form.Ox)
                 {
                     canJump = false;
-                }else if((currentForm == Form.SuperCat && catJumps > 0) || currentForm == Form.Bird)
+                }else if((currentForm == Form.Tiger && catJumps > 0) || currentForm == Form.Crane)
                 {
                     canJump = true;
                 }
@@ -162,7 +184,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 //Determine vertical movement
                 //on the ground and want to jump
-                if (i.jump && canJump)
+                if ((i.jump && canJump ) || (currentForm == Form.Rabbit && _characterController.isGrounded))
                 {
                     verticalSpeed = jumpSpeed;
                     catJumps--;
@@ -185,13 +207,13 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 float currentSpeed;
 
-                if (firstPersonControllerInput.Run.Value && currentForm != Form.Elephant && currentForm != Form.Cat)
+                if (firstPersonControllerInput.Run.Value && currentForm != Form.Rabbit)
                 {
                     currentSpeed = runSpeed;
                 }
-                else if (currentForm != Form.Elephant)
+                else if (currentForm == Form.Ox)
                 {
-                    currentSpeed = moveSpeed * 0.75f;
+                    currentSpeed = 0;
                 }
                 else
                 {
@@ -228,7 +250,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             Subscribe(inputLook =>
             {
                 //2D Vector in Euler Angles
-                if (currentForm != Form.Elephant)
+                if (currentForm != Form.Ox)
                 {
 
                     //Horizontal around vertical axis + being clockwise

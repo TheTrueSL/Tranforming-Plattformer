@@ -25,6 +25,10 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
     private IObservable<float> _turn;
     public override IObservable<float> Turn => _turn;
 
+    private IObservable<float> _slowMove;
+    public override IObservable<float> SlowMove => _slowMove;
+
+
     [Header("Look Properties")]
     [SerializeField] private float lookSmoothingFactor = 14.0f;
 
@@ -56,6 +60,8 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
 		_zoom = this.UpdateAsObservable().Select(_ => _controls.Game.Zoom.ReadValue<float>());
 
         _turn = this.UpdateAsObservable().Select(_ => _controls.Game.Turn.ReadValue<float>());
+
+        _slowMove= this.UpdateAsObservable().Select(_ => _controls.Game.SlowMove.ReadValue<float>());
 
         //Look
         var smoothLookValue = new Vector2(0, 0);

@@ -65,6 +65,14 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SlowMove"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c949805-a0d7-4fde-887c-e8a9804d8c0a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -386,6 +394,39 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Turn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""44499ca1-c969-4b9e-8dc1-a4492ce46735"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SlowMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""673e094e-a8a9-400d-8348-f3041ec3d1bf"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""SlowMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b9d1714d-c622-453c-9aa3-49dc3a9ad339"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""SlowMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -428,6 +469,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
         m_Game_Turn = m_Game.FindAction("Turn", throwIfNotFound: true);
+        m_Game_SlowMove = m_Game.FindAction("SlowMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -483,6 +525,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Zoom;
     private readonly InputAction m_Game_Turn;
+    private readonly InputAction m_Game_SlowMove;
     public struct GameActions
     {
         private @FirstPersonInputAction m_Wrapper;
@@ -493,6 +536,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
         public InputAction @Turn => m_Wrapper.m_Game_Turn;
+        public InputAction @SlowMove => m_Wrapper.m_Game_SlowMove;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -520,6 +564,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Turn.started -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
                 @Turn.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
                 @Turn.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnTurn;
+                @SlowMove.started -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
+                @SlowMove.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
+                @SlowMove.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -542,6 +589,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @Turn.started += instance.OnTurn;
                 @Turn.performed += instance.OnTurn;
                 @Turn.canceled += instance.OnTurn;
+                @SlowMove.started += instance.OnSlowMove;
+                @SlowMove.performed += instance.OnSlowMove;
+                @SlowMove.canceled += instance.OnSlowMove;
             }
         }
     }
@@ -572,5 +622,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnTurn(InputAction.CallbackContext context);
+        void OnSlowMove(InputAction.CallbackContext context);
     }
 }

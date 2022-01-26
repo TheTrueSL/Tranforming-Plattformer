@@ -12,10 +12,10 @@ public class PowerUpVerwalter : MonoBehaviour
     public void Collect(PowerUpType type)
     {
         if (type == PowerUpType.Yellow)
-            player.SetForm("Cat");
+            player.SetForm(Form.Rabbit);
 		else if(type == PowerUpType.Red)
-			player.SetForm("SuperCat");
+			player.SetForm(Form.Tiger);
 		else if(type == PowerUpType.Blue)
-			player.SetForm("Bird");
+			player.SetForm(Form.Crane);
     }
 }
