@@ -10,6 +10,7 @@ using UnityEngine;
 
 
 public enum Form { Ox, Rabbit, Tiger, Crane };
+
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour, ICharacterSignals
 {
@@ -54,6 +55,10 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     public Form currentForm = Form.Ox;
     [SerializeField]
     TransformationManager transformationManager;
+
+    public bool RabbitUnlocked = false;
+    public bool TigerUnlocked = false;
+    public bool CraneUnlocked = false;
 
     public void SetForm(Form form)
     {

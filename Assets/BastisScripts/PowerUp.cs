@@ -9,6 +9,8 @@ public enum PowerUpType{
 public class PowerUp : MonoBehaviour
 {
 	public PowerUpType type;
+    [SerializeField]
+    GameObject MyPointer;
 
     void OnTriggerEnter(Collider col)
     {
@@ -18,6 +20,7 @@ public class PowerUp : MonoBehaviour
             PowerUpVerwalter walter = FindObjectOfType<PowerUpVerwalter>();
 			if(walter != null)
 				walter.Collect(type);
+            Destroy(MyPointer);
 			Destroy(gameObject);
         }
         

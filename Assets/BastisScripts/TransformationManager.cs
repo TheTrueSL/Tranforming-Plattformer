@@ -14,6 +14,9 @@ public class TransformationManager : MonoBehaviour {
     [SerializeField]
     private GameObject current;
 
+    [SerializeField]
+    private GameObject transformationEffect;
+
     private void Start()
     {
         //Ox.SetActive(false);
@@ -24,6 +27,7 @@ public class TransformationManager : MonoBehaviour {
 
     public void TransFormInto(Form form)
     {
+        Instantiate(transformationEffect, transform.position, Quaternion.identity);
         current.SetActive(false);
         switch (form)
         {
