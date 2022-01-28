@@ -212,7 +212,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 float currentSpeed;
 
-                if (firstPersonControllerInput.Run.Value && currentForm != Form.Rabbit)
+                if (firstPersonControllerInput.Run.Value && currentForm == Form.Tiger)
                 {
                     currentSpeed = runSpeed;
                 }
