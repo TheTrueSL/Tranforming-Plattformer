@@ -11,6 +11,14 @@ using UnityEngine;
 
 public enum Form { Ox, Rabbit, Tiger, Crane };
 
+public enum State
+{
+    Standing,
+    Walking,
+    Running,
+    Jumping
+};
+
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour, ICharacterSignals
 {
@@ -60,6 +68,12 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     public bool TigerUnlocked = false;
     public bool CraneUnlocked = false;
 
+    public AudioClip[] sounds = new AudioClip[12];
+
+    private AudioSource speakerphone;
+
+    private State currentState = State.Standing;
+
     public void SetForm(Form form)
     {
         transformationManager.TransFormInto(form);
@@ -79,9 +93,59 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
         }
     }
 
+    private int walkingIndex = 0;
+    private AudioClip GetClip()
+    {
+        int index = 0;
+        switch (currentState)
+        {
+            case State.Running:
+            {
+                index += 3; break;
+            }
+            case State.Jumping:
+            {
+                if (currentForm == Form.Rabbit)
+                    return sounds[11];
+                else if (currentForm == Form.Crane)
+                    return sounds[10];
+                else if (currentForm == Form.Tiger)
+                    return sounds[9];
+                break;
+            }case State.Walking:
+            {
+                index += walkingIndex;
+                break;
+            }
+            default: return null;
+        }
+
+        walkingIndex = (walkingIndex + 1)%6;
+        return sounds[index];
+    }
+
+    private void Update()
+    {
+        if (currentState == State.Jumping)
+        {
+            speakerphone.gameObject.SetActive(false);
+            speakerphone.clip = GetClip();
+            speakerphone.gameObject.SetActive(true);
+        }
+        else if (!speakerphone.isPlaying)
+        {
+            speakerphone.gameObject.SetActive(false);
+            speakerphone.clip = GetClip();
+            speakerphone.gameObject.SetActive(true);
+        }
+
+        currentState = State.Standing;
+    }
+
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
         _camera = GetComponentInChildren<Camera>();
+        speakerphone = GetComponentInChildren<AudioSource>();
         //var stepDistance = 0f;
         //Moved.Subscribe(w => {
         //    stepDistance += w.magnitude;
@@ -177,22 +241,21 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if (currentForm == Form.Ox)
                 {
                     canJump = false;
+                    currentState = State.Walking;
                 }else if((currentForm == Form.Tiger && catJumps > 0) || currentForm == Form.Crane)
                 {
                     canJump = true;
                 }
-               
-                
 
                 //vertical movement
                 var verticalSpeed = 0f;
-
                 //Determine vertical movement
                 //on the ground and want to jump
                 if ((i.jump && canJump ) || (currentForm == Form.Rabbit && _characterController.isGrounded))
                 {
                     verticalSpeed = jumpSpeed;
                     catJumps--;
+                    currentState = State.Jumping;
                     //_jumped.OnNext(Unit.Default);
                 }
                 //not grounded -> gravity
@@ -205,6 +268,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 {
                     verticalSpeed = -Math.Abs(gravity);
                     catJumps = 2;
+                    currentState = State.Walking;
                 }
 
                 //horizontal movement
@@ -215,6 +279,8 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if (firstPersonControllerInput.Run.Value && currentForm == Form.Tiger)
                 {
                     currentSpeed = runSpeed;
+                    if(currentState != State.Jumping)
+                        currentState = State.Running;
                 }
                 else if (currentForm == Form.Ox)
                 {
@@ -224,6 +290,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 {
                     currentSpeed = moveSpeed;
                 }
+
                 
                 var horizontalVelocity = i.move * currentSpeed;
 
