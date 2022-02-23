@@ -17,13 +17,7 @@ public class TransformationManager : MonoBehaviour {
     [SerializeField]
     private GameObject transformationEffect;
 
-    private void Start()
-    {
-        //Ox.SetActive(false);
-        Rabbit.SetActive(false);
-        //Tiger.SetActive(false);
-        //Crane.SetActive(false);
-    }
+  
 
     public void TransFormInto(Form form)
     {

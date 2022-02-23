@@ -9,7 +9,16 @@ public class PowerUpVerwalter : MonoBehaviour
     // Start is called before the first frame update
 
     public FirstPersonController player;
+    
+    [SerializeField]
+    private GameObject MyCompass;
+    [SerializeField]
+    private GameObject Needle;
 
+    public void Start()
+    {
+        Needle.SetActive(false);
+    }
     public void Collect(PowerUpType type)
     {
         switch (type) {
@@ -24,6 +33,8 @@ public class PowerUpVerwalter : MonoBehaviour
             case PowerUpType.Blue:
                 player.CraneUnlocked = true;
                 player.SetForm(Form.Crane);
+                MyCompass.SetActive(false);
+                Needle.SetActive(true);
                 break;
             case PowerUpType.Green:
                 SceneManager.LoadScene("WinScreen");
