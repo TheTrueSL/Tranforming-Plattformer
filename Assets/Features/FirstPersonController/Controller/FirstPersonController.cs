@@ -48,9 +48,8 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [SerializeField] private float turnSpeed = 10f;
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float gravity = 5f;
-    [SerializeField] private float jumpSpeed = 6f;
+    [SerializeField] private float jumpSpeed = 12f;
     [SerializeField] private float strideLength = 2.5f;
-    [SerializeField] private int catJumps = 2;
     public float StrideLength => strideLength;
 
     [Header("Head Angels")]
@@ -84,11 +83,14 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 break;
             case Form.Rabbit:
                 currentForm = Form.Rabbit;
+                jumpSpeed = 13f;
                 break;
             case Form.Tiger:
+                jumpSpeed = 11f;
                 currentForm = Form.Tiger;
                 break;
-            case Form.Crane: currentForm = Form.Crane; 
+            case Form.Crane: currentForm = Form.Crane;
+                jumpSpeed = 12f;
                 break;
         }
     }
@@ -242,7 +244,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 {
                     canJump = false;
                     currentState = State.Walking;
-                }else if((currentForm == Form.Tiger && catJumps > 0) || currentForm == Form.Crane)
+                }else if(currentForm == Form.Crane)
                 {
                     canJump = true;
                 }
@@ -254,7 +256,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if ((i.jump && canJump ) || (currentForm == Form.Rabbit && _characterController.isGrounded))
                 {
                     verticalSpeed = jumpSpeed;
-                    catJumps--;
                     currentState = State.Jumping;
                     //_jumped.OnNext(Unit.Default);
                 }
@@ -267,7 +268,6 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 //on the ground. Restore base state
                 {
                     verticalSpeed = -Math.Abs(gravity);
-                    catJumps = 2;
                     currentState = State.Walking;
                 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PowerUpType{
-   Yellow, Red, Blue
+   Yellow, Red, Blue, Green
 }
 
 public class PowerUp : MonoBehaviour

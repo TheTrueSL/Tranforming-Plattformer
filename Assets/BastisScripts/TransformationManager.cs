@@ -20,7 +20,7 @@ public class TransformationManager : MonoBehaviour {
     private void Start()
     {
         //Ox.SetActive(false);
-        //Rabbit.SetActive(false);
+        Rabbit.SetActive(false);
         //Tiger.SetActive(false);
         //Crane.SetActive(false);
     }

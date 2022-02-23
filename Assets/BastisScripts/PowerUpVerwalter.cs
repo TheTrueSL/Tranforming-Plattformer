@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
@@ -11,11 +12,26 @@ public class PowerUpVerwalter : MonoBehaviour
 
     public void Collect(PowerUpType type)
     {
-        if (type == PowerUpType.Yellow)
-            player.SetForm(Form.Rabbit);
-		else if(type == PowerUpType.Red)
-			player.SetForm(Form.Tiger);
-		else if(type == PowerUpType.Blue)
-			player.SetForm(Form.Crane);
+        switch (type) {
+            case PowerUpType.Yellow:
+                player.RabbitUnlocked = true;
+                player.SetForm(Form.Rabbit);
+                break;
+            case PowerUpType.Red:
+                player.TigerUnlocked = true;
+                player.SetForm(Form.Tiger);
+                break;
+            case PowerUpType.Blue:
+                player.CraneUnlocked = true;
+                player.SetForm(Form.Crane);
+                break;
+            case PowerUpType.Green:
+                SceneManager.LoadScene("WinScreen");
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName("WinScreen"));
+                break;
+
+            default: break;
+        }
+           
     }
 }
