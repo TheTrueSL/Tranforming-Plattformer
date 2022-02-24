@@ -21,6 +21,7 @@ public class PowerUpVerwalter : MonoBehaviour
     }
     public void Collect(PowerUpType type)
     {
+        player.currentMax = (player.currentMax + 1) % 4; 
         switch (type) {
             case PowerUpType.Yellow:
                 player.RabbitUnlocked = true;

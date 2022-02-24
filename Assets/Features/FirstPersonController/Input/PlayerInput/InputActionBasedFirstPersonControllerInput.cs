@@ -22,6 +22,9 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
     private Subject<Unit> _jump;
     public override IObservable<Unit> Jump => _jump;
 
+    private IObservable<float> _swap;
+    public override IObservable<float> Swap => _swap;
+
     private IObservable<float> _turn;
     public override IObservable<float> Turn => _turn;
 
@@ -62,6 +65,8 @@ public class InputActionBasedFirstPersonControllerInput : FirstPersonControllerI
         _turn = this.UpdateAsObservable().Select(_ => _controls.Game.Turn.ReadValue<float>());
 
         _slowMove= this.UpdateAsObservable().Select(_ => _controls.Game.SlowMove.ReadValue<float>());
+
+        _swap = this.UpdateAsObservable().Select(_ => _controls.Game.Swap.ReadValue<float>());
 
         //Look
         var smoothLookValue = new Vector2(0, 0);

@@ -73,6 +73,14 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Swap"",
+                    ""type"": ""Button"",
+                    ""id"": ""cc041402-fcf0-48a3-96c6-f87f0ac6ccaf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -427,6 +435,28 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                     ""action"": ""SlowMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98a257f1-3399-4714-be79-bf93c10f6f0a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Swap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f79f875c-209f-4d30-9ba1-86a27ff863a1"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Swap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -470,6 +500,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
         m_Game_Turn = m_Game.FindAction("Turn", throwIfNotFound: true);
         m_Game_SlowMove = m_Game.FindAction("SlowMove", throwIfNotFound: true);
+        m_Game_Swap = m_Game.FindAction("Swap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -526,6 +557,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Zoom;
     private readonly InputAction m_Game_Turn;
     private readonly InputAction m_Game_SlowMove;
+    private readonly InputAction m_Game_Swap;
     public struct GameActions
     {
         private @FirstPersonInputAction m_Wrapper;
@@ -537,6 +569,7 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
         public InputAction @Turn => m_Wrapper.m_Game_Turn;
         public InputAction @SlowMove => m_Wrapper.m_Game_SlowMove;
+        public InputAction @Swap => m_Wrapper.m_Game_Swap;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -567,6 +600,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @SlowMove.started -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
                 @SlowMove.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
                 @SlowMove.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnSlowMove;
+                @Swap.started -= m_Wrapper.m_GameActionsCallbackInterface.OnSwap;
+                @Swap.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnSwap;
+                @Swap.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnSwap;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -592,6 +628,9 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
                 @SlowMove.started += instance.OnSlowMove;
                 @SlowMove.performed += instance.OnSlowMove;
                 @SlowMove.canceled += instance.OnSlowMove;
+                @Swap.started += instance.OnSwap;
+                @Swap.performed += instance.OnSwap;
+                @Swap.canceled += instance.OnSwap;
             }
         }
     }
@@ -623,5 +662,6 @@ public class @FirstPersonInputAction : IInputActionCollection, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnTurn(InputAction.CallbackContext context);
         void OnSlowMove(InputAction.CallbackContext context);
+        void OnSwap(InputAction.CallbackContext context);
     }
 }

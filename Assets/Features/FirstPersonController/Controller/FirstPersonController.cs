@@ -18,6 +18,11 @@ public enum State
     Running,
     Jumping
 };
+public enum Trans
+{
+    nop,
+    yep
+};
 
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour, ICharacterSignals
@@ -34,6 +39,9 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
     public IObservable<Unit> Jumped => _jumped;
     private Subject<Unit> _jumped;
+
+    public IObservable<float> Swap => _swap;
+    private Subject<float> _swap;
 
     public IObservable<Unit> Stepped => _stepped;
     private Subject<Unit> _stepped;
@@ -60,6 +68,9 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Header("State")]
     [SerializeField]
     public Form currentForm = Form.Ox;
+    private int currentCount = 0;
+    public int currentMax = 1;
+    
     [SerializeField]
     TransformationManager transformationManager;
 
@@ -72,6 +83,8 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     private AudioSource speakerphone;
 
     private State currentState = State.Standing;
+
+    private Trans currentTrans = Trans.nop;
 
     public void SetForm(Form form)
     {
@@ -131,6 +144,12 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
     private void Update()
     {
+        if (currentTrans == Trans.yep)
+        {
+            dothemagic();
+            currentTrans = Trans.nop;
+        }
+
         if (currentState == State.Jumping)
         {
             speakerphone.gameObject.SetActive(false);
@@ -163,15 +182,17 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
     private void Start()
     {
-        
+
         this.HandleLocomotion();
         this.Look();
         this.HandleZoom();
-        this.HandleTurn();      
+        this.HandleTurn();
+        initializeMagic();
         
         _isRunning = new ReactiveProperty<bool>(false);
         _moved = new Subject<Vector3>().AddTo(this);
         _jumped = new Subject<Unit>().AddTo(this);
+        _swap = new Subject<float>().AddTo(this);
         _landed = new Subject<Unit>().AddTo(this);
         _stepped = new Subject<Unit>().AddTo(this);
     }
@@ -217,6 +238,17 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                     _camera.transform.position += input * direction;
                 }
             }).AddTo(this);
+    }
+
+
+    private void initializeMagic()
+    {
+        firstPersonControllerInput.Swap.Subscribe(j =>  
+        { 
+            if (j==1) currentTrans = Trans.yep;
+            else currentTrans = Trans.nop;
+    }).AddTo(this);
+        // Throttle(System.TimeSpan.FromSeconds(0.6f)) hat dann nicht mehr funktioniert D:
     }
 
 
@@ -344,6 +376,22 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
 
             }).AddTo(this);
+    }
+
+    private void dothemagic()
+    {
+        currentCount = (currentCount + 1) % currentMax;
+        switch (currentCount)
+        {
+            case 1: SetForm(Form.Rabbit);
+                break;
+            case 2: SetForm(Form.Tiger);
+                break;
+            case 3: SetForm(Form.Crane);
+                break;
+            default: SetForm(Form.Ox);
+                break;
+        }
     }
 
     public struct MoveInputData {

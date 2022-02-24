@@ -15,6 +15,7 @@ public abstract class FirstPersonControllerInput : MonoBehaviour
     ///     Interaction type: Trigger.
     /// </summary>
     public abstract IObservable<Unit> Jump { get; }
+    public abstract IObservable<float> Swap { get; }
 
     /// <summary>
     ///     Run button.
