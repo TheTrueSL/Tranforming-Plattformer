@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="29ec5e58-6aaf-47e5-b535-504f00e200cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PowerUp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PowerUpVerwalter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PowerUpVerwalter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,16 +16,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Deathplane.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Deathplane.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PowerUpVerwalter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Deathplane.cs" />
-      <option value="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" />
       <option value="$PROJECT_DIR$/PowerUp.cs" />
       <option value="$PROJECT_DIR$/PowerUpVerwalter.cs" />
+      <option value="$PROJECT_DIR$/Movable.cs" />
+      <option value="$PROJECT_DIR$/../Features/FirstPersonController/Controller/FirstPersonController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="23sOwnlTngzOxmEBXDIaUH7a4Hn" />
@@ -51,6 +52,7 @@
       <workItem from="1642519594336" duration="863000" />
       <workItem from="1642533058989" duration="2038000" />
       <workItem from="1642866804240" duration="2254000" />
+      <workItem from="1645122284866" duration="2034000" />
     </task>
     <servers />
   </component>

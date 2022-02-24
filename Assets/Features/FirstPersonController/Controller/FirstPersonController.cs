@@ -76,6 +76,9 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     public void SetForm(Form form)
     {
         transformationManager.TransFormInto(form);
+        speakerphone.gameObject.SetActive(false);
+        speakerphone.clip = sounds[8];
+        speakerphone.gameObject.SetActive(true);
         switch (form)
         {
             case Form.Ox: 

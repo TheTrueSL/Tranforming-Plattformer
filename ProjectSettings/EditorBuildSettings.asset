@@ -8,12 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 7d1e21e12fb86f94fb27a53a18216e11
-  - enabled: 0
-    path: Assets/Scenes/CloudyPeak/CloudyPeak.unity
-    guid: ef5925cbca4abd94693d8c38f4bd5937
-  - enabled: 0
-    path: Assets/Scenes/OrreryHall/OrreryHall.unity
-    guid: 5fe06eab455be0b48b51971b16180948
   - enabled: 1
     path: Assets/Scenes/WinScreen.unity
     guid: 7792d0a093d664942b347753e5dba682

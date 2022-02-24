@@ -37,8 +37,7 @@ public class PowerUpVerwalter : MonoBehaviour
                 Needle.SetActive(true);
                 break;
             case PowerUpType.Green:
-                SceneManager.LoadScene("WinScreen");
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName("WinScreen"));
+                SceneManager.LoadScene("Game");
                 break;
 
             default: break;

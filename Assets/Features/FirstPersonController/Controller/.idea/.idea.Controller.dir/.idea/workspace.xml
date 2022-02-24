@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3ea75f2d-2623-4c5b-bbe4-cd4af7eef7b2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../BastisScripts/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../BastisScripts/.idea/.idea.BastisScripts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../BastisScripts/PowerUpVerwalter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../BastisScripts/PowerUpVerwalter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FirstPersonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FirstPersonController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Scenes/Game.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../../../BastisScripts/StartButton.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../BastisScripts/PowerUpVerwalter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/FirstPersonController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../BastisScripts/ExitButton.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <changedPaths>
+      <option value="$PROJECT_DIR$/FirstPersonController.cs" />
+      <option value="$PROJECT_DIR$/../../../BastisScripts/ExitButton.cs" />
+      <option value="$PROJECT_DIR$/../../../BastisScripts/StartButton.cs" />
+      <option value="$PROJECT_DIR$/../../../BastisScripts/PowerUpVerwalter.cs" />
+    </changedPaths>
+  </component>
+  <component name="ProjectId" id="25HMypwYw4ZpAOBJiErOQRXdO6I" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ea75f2d-2623-4c5b-bbe4-cd4af7eef7b2" name="Default Changelist" comment="" />
+      <created>1645179824039</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1645179824039</updated>
+      <workItem from="1645179842190" duration="1430000" />
+      <workItem from="1645695287343" duration="1484000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

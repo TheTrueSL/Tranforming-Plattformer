@@ -6551,7 +6551,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-147786
+  m_Name: pb_Mesh18640
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14251,7 +14251,7 @@ MonoBehaviour:
   strideLength: 2.5
   minViewAngle: -60
   maxViewAngle: 60
-  currentForm: 0
+  currentForm: 3
   transformationManager: {fileID: 1010829247}
   RabbitUnlocked: 0
   TigerUnlocked: 0
@@ -14265,7 +14265,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dc51086bc85dc5448b059b6487ce0e0b, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 5e4d8db615ed027408aa95d17cefbaad, type: 3}
   - {fileID: 8300000, guid: 326614415ebfda94d90d5bf9213f0887, type: 3}
   - {fileID: 8300000, guid: 2f97786546977de418d0a96efb1894cc, type: 3}
   - {fileID: 8300000, guid: 8acd1864625cee744bc7c82f03958ebc, type: 3}
