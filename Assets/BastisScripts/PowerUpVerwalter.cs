@@ -21,18 +21,21 @@ public class PowerUpVerwalter : MonoBehaviour
     }
     public void Collect(PowerUpType type)
     {
-        player.currentMax = (player.currentMax + 1) % 4; 
+        player.currentMax = (player.currentMax + 1); 
         switch (type) {
             case PowerUpType.Yellow:
                 player.RabbitUnlocked = true;
+				player.currentCount = player.currentMax-1;
                 player.SetForm(Form.Rabbit);
                 break;
             case PowerUpType.Red:
                 player.TigerUnlocked = true;
+				player.currentCount = player.currentMax-1;
                 player.SetForm(Form.Tiger);
                 break;
             case PowerUpType.Blue:
                 player.CraneUnlocked = true;
+				player.currentCount = player.currentMax-1;
                 player.SetForm(Form.Crane);
                 MyCompass.SetActive(false);
                 Needle.SetActive(true);

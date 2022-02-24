@@ -68,7 +68,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     [Header("State")]
     [SerializeField]
     public Form currentForm = Form.Ox;
-    private int currentCount = 0;
+    public int currentCount = 0;
     public int currentMax = 1;
     
     [SerializeField]
@@ -85,6 +85,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     private State currentState = State.Standing;
 
     private Trans currentTrans = Trans.nop;
+	private float lastChange = 0f;
 
     public void SetForm(Form form)
     {
@@ -245,8 +246,12 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
     {
         firstPersonControllerInput.Swap.Subscribe(j =>  
         { 
-            if (j==1) currentTrans = Trans.yep;
-            else currentTrans = Trans.nop;
+            if (j==1 && lastChange > 1f) {
+				currentTrans = Trans.yep;
+				lastChange = 0f;
+			}
+			else
+				lastChange += Time.deltaTime;
     }).AddTo(this);
         // Throttle(System.TimeSpan.FromSeconds(0.6f)) hat dann nicht mehr funktioniert D:
     }
