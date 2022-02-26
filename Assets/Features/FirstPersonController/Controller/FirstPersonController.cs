@@ -213,13 +213,26 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
             Where(v => v != 0f).
             Subscribe(input =>
             {
-                    if (currentForm == Form.Ox)
+                
+                if (currentForm == Form.Ox)
                     {
-                        float movement = input * moveSpeed * 0.75f;
+                   currentState = State.Walking;
+                    float movement = input * moveSpeed * 0.75f;
+                    float verticalSpeed = 0f; ;
+                    if (!_characterController.isGrounded)
+                    {
+                        verticalSpeed = _characterController.velocity.y + (Physics.gravity.y * Time.deltaTime * 3.0f);
+                    }
+                    else if (_characterController.isGrounded)
+                    //on the ground. Restore base state
+                    {
+                    verticalSpeed = -Math.Abs(gravity);
+                    currentState = State.Walking;
+                    }
                         //apply movement
 
-                        var forward = transform.TransformVector(new Vector3(0, 0, movement * Time.deltaTime));
-                        _characterController.Move(forward);
+                    var forward = transform.TransformVector(new Vector3(0, verticalSpeed , movement ));
+                        _characterController.Move(forward * Time.deltaTime);
                     }
                 
             }).AddTo(this);
@@ -283,7 +296,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 if (currentForm == Form.Ox)
                 {
                     canJump = false;
-                    currentState = State.Walking;
+                    
                 }else if(currentForm == Form.Crane)
                 {
                     canJump = true;
@@ -291,6 +304,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
 
                 //vertical movement
                 var verticalSpeed = 0f;
+                Debug.Log(_characterController.isGrounded);
                 //Determine vertical movement
                 //on the ground and want to jump
                 if ((i.jump && canJump ) || (currentForm == Form.Rabbit && _characterController.isGrounded))
@@ -324,7 +338,7 @@ public class FirstPersonController : MonoBehaviour, ICharacterSignals
                 }
                 else if (currentForm == Form.Ox)
                 {
-                    currentSpeed = 0;
+                    currentSpeed = moveSpeed/2;
                 }
                 else
                 {
